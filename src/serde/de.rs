@@ -34,8 +34,12 @@ mod inner {
         expect_eof(bytes)?;
         Ok(t)
     }
+
+    pub fn expose_deserializer() {
+        return SerdeDecoder::Unspecified { length: 1 };
+    }
 }
-pub use inner::deserialize;
+pub use inner::*;
 
 enum SerdeDecoder<'a> {
     Bool(BoolDecoder<'a>),
