@@ -35,12 +35,15 @@ mod inner {
         Ok(t)
     }
 
-    pub fn expose_deserializer<'de, T: Deserialize<'de>>(mut bytes: &'de [u8]) -> DecodeWrapper<'a, 'de> {
+    pub fn expose_deserializer<'de, T: Deserialize<'de>>(
+        mut bytes: &'de [u8],
+    ) -> DecodeWrapper<'a, 'de> {
         let mut decoder = SerdeDecoder::Unspecified { length: 1 };
         return DecoderWrapper {
             decoder: &mut decoder,
             input: &mut bytes,
-        }).unwrap()
+        }
+        .unwrap();
     }
 }
 pub use inner::*;
