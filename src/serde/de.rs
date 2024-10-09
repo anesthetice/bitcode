@@ -27,23 +27,20 @@ mod inner {
     /// change between major versions.
     pub fn deserialize<'de, T: Deserialize<'de>>(mut bytes: &'de [u8]) -> Result<T, Error> {
         let mut decoder = SerdeDecoder::Unspecified { length: 1 };
-        let t = T::deserialize(DecoderWrapper {
+        let deser = DecoderWrapper {
             decoder: &mut decoder,
             input: &mut bytes,
-        })?;
+        };
+        let result: Result<T, _> = serde_path_to_error::deserialize(deser);
         expect_eof(bytes)?;
-        Ok(t)
-    }
-
-    pub fn expose_deserializer<'de, T: Deserialize<'de>>(
-        mut bytes: &'de [u8],
-    ) -> DecodeWrapper<'a, 'de> {
-        let mut decoder = SerdeDecoder::Unspecified { length: 1 };
-        return DecoderWrapper {
-            decoder: &mut decoder,
-            input: &mut bytes,
+        match result {
+            Ok(_) => panic!("expected a type error"),
+            Err(err) => {
+                let path = err.path().to_string();
+                println!("Error from : {path}");
+                panic!()
+            }
         }
-        .unwrap();
     }
 }
 pub use inner::*;

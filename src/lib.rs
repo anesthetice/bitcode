@@ -39,9 +39,7 @@ pub use crate::error::Error;
 #[cfg(feature = "derive")]
 pub use bitcode_derive::{Decode, Encode};
 
-#[cfg(feature = "serde")]
 mod serde;
-#[cfg(feature = "serde")]
 pub use crate::serde::*;
 
 #[cfg(test)]

@@ -16,7 +16,6 @@ pub fn error(_msg: &'static str) -> Error {
 }
 
 /// Creates an error from a `T:` [`Display`].
-#[cfg(feature = "serde")]
 pub fn error_from_display(_t: impl Display) -> Error {
     #[cfg(debug_assertions)]
     return Error(Cow::Owned(alloc::string::ToString::to_string(&_t)));
