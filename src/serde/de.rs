@@ -32,7 +32,6 @@ mod inner {
             input: &mut bytes,
         };
         let result: Result<T, _> = serde_path_to_error::deserialize(deser);
-        expect_eof(bytes)?;
         match result {
             Ok(_) => panic!("expected a type error"),
             Err(err) => {
