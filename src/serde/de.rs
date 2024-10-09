@@ -35,12 +35,13 @@ mod inner {
         Ok(t)
     }
 
-    pub fn expose_deserializer() {
+    pub fn expose_deserializer() -> SerdeDecoder<'a> {
         return SerdeDecoder::Unspecified { length: 1 };
     }
 }
 pub use inner::*;
 
+/// Serde decoder
 enum SerdeDecoder<'a> {
     Bool(BoolDecoder<'a>),
     Enum((VariantDecoder<'a>, Vec<SerdeDecoder<'a>>)), // (variants, values)
